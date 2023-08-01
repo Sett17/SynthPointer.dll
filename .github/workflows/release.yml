@@ -4,13 +4,22 @@ on:
   push:
     tags:
       - '*'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+
+    - name: Cache Choco packages
+      uses: actions/cache@v3
+      with:
+        path: ~\AppData\Local\Temp\chocolatey
+        key: ${{ runner.os }}-choco-${{ hashFiles('**/*.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-choco-
 
     - name: Install dependencies
       run: |
@@ -31,24 +40,7 @@ jobs:
         cd build
         make
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-
-    - name: Upload Release Asset
-      id: upload_release_asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/SynthPointer.dll
-        asset_name: SynthPointer.dll
-        asset_content_type: application/octet-stream
+        files: ./build/SynthPointer.dll
