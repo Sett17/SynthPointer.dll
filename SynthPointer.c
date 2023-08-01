@@ -27,7 +27,7 @@ POINTER_TYPE_INFO GetDefaultPointerTypeInfo() {
   return typeInfo;
 }
 
-void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId) {
+void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed) {
     POINT offset = calculateScreenOffset(screenId);
 
     DEVMODE devMode;
@@ -42,11 +42,12 @@ void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x,
     info->penInfo.pointerInfo.ptPixelLocation.x = screenX;
     info->penInfo.pointerInfo.ptPixelLocation.y = screenY;
     info->penInfo.pointerInfo.pointerFlags = PEN_HOVER;
+    info->penInfo.penFlags |= (buttonPressed) ? PEN_FLAG_BARREL : 0;
 
     injectPointer(device, info);
 }
 
-void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info, float x, float y, int screenId) {
+void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info, float x, float y, int screenId, BOOL buttonPressed, UINT32 pressure) {
     POINT offset = calculateScreenOffset(screenId);
 
     DEVMODE devMode;
@@ -61,6 +62,9 @@ void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info, float 
     info->penInfo.pointerInfo.ptPixelLocation.x = screenX;
     info->penInfo.pointerInfo.ptPixelLocation.y = screenY;
     info->penInfo.pointerInfo.pointerFlags = PEN_CONTACT;
+    info->penInfo.penFlags |= (buttonPressed) ? PEN_FLAG_BARREL : 0;
+    info->penInfo.penMask = PEN_MASK_PRESSURE;
+    info->penInfo.pressure = pressure;
 
     injectPointer(device, info);
 }

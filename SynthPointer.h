@@ -68,8 +68,9 @@ POINTER_TYPE_INFO GetDefaultPointerTypeInfo();
  * - `x` - Normalized x-coordinate of the hover position.
  * - `y` - Normalized y-coordinate of the hover position.
  * - `screenId` - ID of the screen.
+ * - `buttonPressed` - Boolean indicating if the button is pressed.
  */
-void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId);
+void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed);
 
 /** (ContactMove)
  * Move the contact position of the pen.
@@ -81,8 +82,10 @@ void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x,
  * - `x` - Normalized x-coordinate of the contact position.
  * - `y` - Normalized y-coordinate of the contact position.
  * - `screenId` - ID of the screen.
+ * - `buttonPressed` - Boolean indicating if the button is pressed.
+ * - `pressure` - The pressure of the pen contact.
  */
-void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId);
+void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed, UINT32 pressure);
 
 /** (HoverExit)
  * Exit the hover state of the pen.

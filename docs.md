@@ -52,10 +52,10 @@ Get an initial POINTER_TYPE_INFO with default values.
 Return a POINTER_TYPE_INFO structure with default values.
 
 <a name="line-61"></a><a name="HoverMove"></a>
-### 🔹 void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId)
+### 🔹 void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed)
 
 ```cpp
-void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId)
+void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed)
 ```
 
 Move the hover position of the pen.
@@ -67,12 +67,13 @@ Move the hover position of the pen.
 - `x` - Normalized x-coordinate of the hover position.
 - `y` - Normalized y-coordinate of the hover position.
 - `screenId` - ID of the screen.
+- `buttonPressed` - Boolean indicating if the button is pressed.
 
-<a name="line-74"></a><a name="ContactMove"></a>
-### 🔹 void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId)
+<a name="line-75"></a><a name="ContactMove"></a>
+### 🔹 void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed, UINT32 pressure)
 
 ```cpp
-void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId)
+void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed, UINT32 pressure)
 ```
 
 Move the contact position of the pen.
@@ -84,8 +85,10 @@ Move the contact position of the pen.
 - `x` - Normalized x-coordinate of the contact position.
 - `y` - Normalized y-coordinate of the contact position.
 - `screenId` - ID of the screen.
+- `buttonPressed` - Boolean indicating if the button is pressed.
+- `pressure` - The pressure of the pen contact.
 
-<a name="line-87"></a><a name="HoverExit"></a>
+<a name="line-90"></a><a name="HoverExit"></a>
 ### 🔹 void HoverExit(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
 
 ```cpp
@@ -99,7 +102,7 @@ Exit the hover state of the pen.
 - `device` - Handle to the synthetic pointer device.
 - `info` - Pointer to the POINTER_TYPE_INFO structure.
 
-<a name="line-97"></a><a name="Down"></a>
+<a name="line-100"></a><a name="Down"></a>
 ### 🔹 void Down(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
 
 ```cpp
@@ -113,7 +116,7 @@ Enter the down state of the pen.
 - `device` - Handle to the synthetic pointer device.
 - `info` - Pointer to the POINTER_TYPE_INFO structure.
 
-<a name="line-107"></a><a name="Up"></a>
+<a name="line-110"></a><a name="Up"></a>
 ### 🔹 void Up(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
 
 ```cpp
@@ -127,7 +130,7 @@ Enter the up state of the pen.
 - `device` - Handle to the synthetic pointer device.
 - `info` - Pointer to the POINTER_TYPE_INFO structure.
 
-<a name="line-117"></a><a name="GetScreenIds"></a>
+<a name="line-120"></a><a name="GetScreenIds"></a>
 ### 🔹 int* GetScreenIds(int* count)
 
 ```cpp
@@ -144,12 +147,12 @@ Get the IDs of the available screens.
 
 Return an array of screen IDs.
 
-<a name="line-130"></a>
+<a name="line-133"></a>
 ## Internal Functions
 
 The following functions are intended for internal use by the DLL and should not be used by applications.
 
-<a name="line-136"></a><a name="calculateScreenOffset"></a>
+<a name="line-139"></a><a name="calculateScreenOffset"></a>
 ### 🔹 POINT calculateScreenOffset(int screenId)
 
 ```cpp
@@ -166,7 +169,7 @@ Calculate the offset of a screen from (0,0).
 
 Return the offset of the screen as a POINT structure.
 
-<a name="line-149"></a><a name="injectPointer"></a>
+<a name="line-152"></a><a name="injectPointer"></a>
 ### 🔹 void injectPointer(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
 
 ```cpp
@@ -180,7 +183,7 @@ Inject the pointer input.
 - `device` - Handle to the synthetic pointer device.
 - `info` - Pointer to the POINTER_TYPE_INFO structure.
 
-<a name="line-159"></a><a name="handleError"></a>
+<a name="line-162"></a><a name="handleError"></a>
 ### 🔹 void handleError()
 
 ```cpp
