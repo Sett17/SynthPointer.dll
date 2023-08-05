@@ -41,10 +41,17 @@ jobs:
         cd build
         ./tests.exe
 
-    - name: Cache build artifacts
-      uses: actions/cache@v2
+    - name: Upload build artifacts
+      if: success() && contains(github.ref, 'refs/tags/')
+      uses: actions/upload-artifact@v3
       with:
-        path: ./build
-        key: ${{ runner.run_id }}
-        restore-keys: |
-          ${{ runner.run_id }}
+        name: build-artifacts
+        path: ./build/
+
+    - name: Trigger Release Workflow
+      if: success() && contains(github.ref, 'refs/tags/')
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: ${{ github.repository }}
+        event-type: trigger-release
