@@ -125,6 +125,7 @@ POINT calculateScreenOffset(int screenId) {
     return data.offset;
 }
 
+
 void injectPointer(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info) {
     if (!InjectSyntheticPointerInput(device, info, 1)) {
       handleError();
@@ -147,6 +148,5 @@ void handleError() {
 
   printf("Error %lu: %s\n", dw, (char *)lpMsgBuf);
 
-  // Free the buffer.
   LocalFree(lpMsgBuf);
 }
