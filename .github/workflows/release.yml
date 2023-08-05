@@ -4,10 +4,13 @@ on:
   push:
     tags:
       - '*'
-  workflow_dispatch:
 
 jobs:
+  test:
+    uses: Sett17/SynthPointer.dll/.github/workflows/test.yml@main
+
   build:
+    needs: test
     runs-on: windows-latest
 
     steps:
@@ -17,36 +20,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./build
-        key: ${{ runner.run_id }}
+        key: ${{ github.run_id }}
         restore-keys: |
-          ${{ runner.run_id }}
-
-    - name: Cache Choco packages
-      uses: actions/cache@v3
-      with:
-        path: ~\AppData\Local\Temp\chocolatey
-        key: ${{ runner.os }}-choco-${{ hashFiles('**/*.yml') }}
-        restore-keys: |
-          ${{ runner.os }}-choco-
-
-    - name: Install dependencies
-      run: |
-        choco install llvm
-        choco install make
-        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-
-    - name: Configure
-      run: |
-        $env:CC="clang"
-        $env:CXX="clang++"
-        mkdir build
-        cd build
-        cmake -G "Unix Makefiles" ..
-
-    - name: Build
-      run: |
-        cd build
-        make
+          ${{ github.run_id }}
 
     - name: Release
       if: ${{ success() }}
