@@ -3,44 +3,23 @@ name: Release
 on:
   push:
     tags:
-      - '*'
+      - '**'
   workflow_dispatch:
 
 jobs:
-  build:
+  release:
     runs-on: windows-latest
+    needs: test
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-    - name: Cache Choco packages
-      uses: actions/cache@v3
-      with:
-        path: ~\AppData\Local\Temp\chocolatey
-        key: ${{ runner.os }}-choco-${{ hashFiles('**/*.yml') }}
-        restore-keys: |
-          ${{ runner.os }}-choco-
-
-    - name: Install dependencies
-      run: |
-        choco install llvm
-        choco install make
-        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-
-    - name: Configure
-      run: |
-        $env:CC="clang"
-        $env:CXX="clang++"
-        mkdir build
-        cd build
-        cmake -G "Unix Makefiles" ..
-
-    - name: Build
-      run: |
-        cd build
-        make
+    - name: Call Test Workflow
+      id: test
+      uses: ./.github/workflows/test.yml
 
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        files: ./build/SynthPointer.dll
+        files: ${{ needs.test.outputs.artifact }}SynthPointer.dll
