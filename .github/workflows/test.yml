@@ -1,6 +1,11 @@
 name: Test
 
-on: [push]
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
 
 jobs:
   build:
@@ -41,10 +46,5 @@ jobs:
         cd build
         ./tests.exe
 
-    - name: Cache build artifacts
-      uses: actions/cache@v2
-      with:
-        path: ./build
-        key: ${{ runner.run_id }}
-        restore-keys: |
-          ${{ runner.run_id }}
+    outputs:
+      artifact: ./build/
