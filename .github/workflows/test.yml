@@ -1,0 +1,50 @@
+name: Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Cache Choco packages
+      uses: actions/cache@v3
+      with:
+        path: ~\AppData\Local\Temp\chocolatey
+        key: ${{ runner.os }}-choco-${{ hashFiles('**/*.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-choco-
+
+    - name: Install dependencies
+      run: |
+        choco install llvm
+        choco install make
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+
+    - name: Configure
+      run: |
+        $env:CC="clang"
+        $env:CXX="clang++"
+        mkdir build
+        cd build
+        cmake -G "Unix Makefiles" ..
+
+    - name: Build
+      run: |
+        cd build
+        make
+
+    - name: Test
+      run: |
+        cd build
+        ./tests.exe
+
+    - name: Cache build artifacts
+      uses: actions/cache@v2
+      with:
+        path: ./build
+        key: ${{ runner.run_id }}
+        restore-keys: |
+          ${{ runner.run_id }}
