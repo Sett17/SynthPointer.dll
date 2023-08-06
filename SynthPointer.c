@@ -93,8 +93,8 @@ void Up(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info) {
   _injectPointer(device, info);
 }
 
-void ScreenCount(int *count) {
-  *count = GetSystemMetrics(SM_CMONITORS);
+int ScreenCount() {
+    return GetSystemMetrics(SM_CMONITORS);
 }
 
 typedef struct {

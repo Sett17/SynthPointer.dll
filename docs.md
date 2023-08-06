@@ -3,29 +3,10 @@
 
 This is a DLL for simulating pen input using the Synthetic Pointer API in Windows.
 
-<a name="line-12"></a>
-## Types
-
-<a name="line-16"></a><a name="PEN_STATES"></a>
-### 🔧 typedef enum {
-
-```cpp
-typedef enum {
-```
-
-Enum for representing the different states of a pen.
-
-- `PEN_STATE_MASK` - Mask for pen states.
-- `PEN_HOVER` - Pen is hovering over the screen.
-- `PEN_DOWN` - Pen is in contact with the screen and is being pressed down.
-- `PEN_CONTACT` - Pen is in contact with the screen.
-- `PEN_UP` - Pen has been lifted off the screen.
-- `PEN_ENDHOVER` - Pen has stopped hovering over the screen.
-
-<a name="line-39"></a>
+<a name="line-16"></a>
 ## Public Functions
 
-<a name="line-43"></a><a name="CreateSynthPointer"></a>
+<a name="line-20"></a><a name="CreateSynthPointer"></a>
 ### 🔹 HSYNTHETICPOINTERDEVICE CreateSynthPointer()
 
 ```cpp
@@ -38,11 +19,11 @@ Create a synthetic pointer device.
 
 Return a handle to the synthetic pointer device.
 
-<a name="line-52"></a><a name="GetDefaultPointerTypeInfo"></a>
-### 🔹 POINTER_TYPE_INFO GetDefaultPointerTypeInfo()
+<a name="line-29"></a><a name="GetDefaultPointerTypeInfo"></a>
+### 🔹 POINTER_TYPE_INFO *GetDefaultPointerTypeInfo()
 
 ```cpp
-POINTER_TYPE_INFO GetDefaultPointerTypeInfo()
+POINTER_TYPE_INFO *GetDefaultPointerTypeInfo()
 ```
 
 Get an initial POINTER_TYPE_INFO with default values.
@@ -51,11 +32,11 @@ Get an initial POINTER_TYPE_INFO with default values.
 
 Return a POINTER_TYPE_INFO structure with default values.
 
-<a name="line-61"></a><a name="HoverMove"></a>
-### 🔹 void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed)
+<a name="line-38"></a><a name="HoverMove"></a>
+### 🔹 void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info, float x, float y, int screenId, BOOL buttonPressed)
 
 ```cpp
-void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed)
+void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info, float x, float y, int screenId, BOOL buttonPressed)
 ```
 
 Move the hover position of the pen.
@@ -69,11 +50,11 @@ Move the hover position of the pen.
 - `screenId` - ID of the screen.
 - `buttonPressed` - Boolean indicating if the button is pressed.
 
-<a name="line-75"></a><a name="ContactMove"></a>
-### 🔹 void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed, UINT32 pressure)
+<a name="line-52"></a><a name="ContactMove"></a>
+### 🔹 void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info, float x, float y, int screenId, BOOL buttonPressed, UINT32 pressure)
 
 ```cpp
-void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info, float x, float y, int screenId, BOOL buttonPressed, UINT32 pressure)
+void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info, float x, float y, int screenId, BOOL buttonPressed, UINT32 pressure)
 ```
 
 Move the contact position of the pen.
@@ -88,11 +69,11 @@ Move the contact position of the pen.
 - `buttonPressed` - Boolean indicating if the button is pressed.
 - `pressure` - The pressure of the pen contact.
 
-<a name="line-90"></a><a name="HoverExit"></a>
-### 🔹 void HoverExit(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
+<a name="line-67"></a><a name="HoverExit"></a>
+### 🔹 void HoverExit(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info)
 
 ```cpp
-void HoverExit(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
+void HoverExit(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info)
 ```
 
 Exit the hover state of the pen.
@@ -102,11 +83,11 @@ Exit the hover state of the pen.
 - `device` - Handle to the synthetic pointer device.
 - `info` - Pointer to the POINTER_TYPE_INFO structure.
 
-<a name="line-100"></a><a name="Down"></a>
-### 🔹 void Down(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
+<a name="line-77"></a><a name="Down"></a>
+### 🔹 void Down(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info)
 
 ```cpp
-void Down(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
+void Down(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info)
 ```
 
 Enter the down state of the pen.
@@ -116,11 +97,11 @@ Enter the down state of the pen.
 - `device` - Handle to the synthetic pointer device.
 - `info` - Pointer to the POINTER_TYPE_INFO structure.
 
-<a name="line-110"></a><a name="Up"></a>
-### 🔹 void Up(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
+<a name="line-87"></a><a name="Up"></a>
+### 🔹 void Up(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info)
 
 ```cpp
-void Up(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
+void Up(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info)
 ```
 
 Enter the up state of the pen.
@@ -130,50 +111,47 @@ Enter the up state of the pen.
 - `device` - Handle to the synthetic pointer device.
 - `info` - Pointer to the POINTER_TYPE_INFO structure.
 
-<a name="line-120"></a><a name="GetScreenIds"></a>
-### 🔹 int* GetScreenIds(int* count)
+<a name="line-97"></a><a name="ScreenCount"></a>
+### 🔹 int ScreenCount()
 
 ```cpp
-int* GetScreenIds(int* count)
+int ScreenCount()
 ```
 
-Get the IDs of the available screens.
+Get the number of screens.
 
-#### Parameters
+#### Return value
 
-- `count` - Pointer to an integer that will be filled with the number of screens.
+Returns the number of screens.
 
-#### Return
-
-Return an array of screen IDs.
-
-<a name="line-133"></a>
+<a name="line-106"></a>
 ## Internal Functions
 
 The following functions are intended for internal use by the DLL and should not be used by applications.
 
-<a name="line-139"></a><a name="calculateScreenOffset"></a>
-### 🔹 POINT calculateScreenOffset(int screenId)
+<a name="line-112"></a><a name="_ScreenToGlobal"></a>
+### 🔹 POINT _ScreenToGlobal(int screenX, int screenY, int screenId)
 
 ```cpp
-POINT calculateScreenOffset(int screenId)
+POINT _ScreenToGlobal(int screenX, int screenY, int screenId)
 ```
 
-Calculate the offset of a screen from (0,0).
+Convert the screen coordinates to global coordinates.
 
 #### Parameters
 
-- `screenId` - ID of the screen.
+- `screenX` - The screen X coordinate.
+- `screenY` - The screen Y coordinate.
+- `screenId` - The screen ID.
 
-#### Return
+#### Returns
+The global coordinates.
 
-Return the offset of the screen as a POINT structure.
-
-<a name="line-152"></a><a name="injectPointer"></a>
-### 🔹 void injectPointer(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
+<a name="line-126"></a><a name="injectPointer"></a>
+### 🔹 void _injectPointer(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info)
 
 ```cpp
-void injectPointer(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO* info)
+void _injectPointer(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info)
 ```
 
 Inject the pointer input.
@@ -183,11 +161,11 @@ Inject the pointer input.
 - `device` - Handle to the synthetic pointer device.
 - `info` - Pointer to the POINTER_TYPE_INFO structure.
 
-<a name="line-162"></a><a name="handleError"></a>
-### 🔹 void handleError()
+<a name="line-136"></a><a name="handleError"></a>
+### 🔹 void _handleError()
 
 ```cpp
-void handleError()
+void _handleError()
 ```
 
 Handle an error that occurred during the DLL's operation.
