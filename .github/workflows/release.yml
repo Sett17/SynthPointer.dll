@@ -1,9 +1,9 @@
-name: Release
+name: Test and Release
 
 on:
   push:
     tags:
-      - '*'
+      - '**'
   workflow_dispatch:
 
 jobs:
@@ -39,6 +39,31 @@ jobs:
       run: |
         cd build
         make
+
+    - name: Test
+      run: |
+        cd build
+        ./tests.exe
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: ./build/
+
+  release:
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
+        path: ./build/
 
     - name: Release
       uses: softprops/action-gh-release@v1
