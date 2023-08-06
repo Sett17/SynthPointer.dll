@@ -112,17 +112,17 @@ Enter the up state of the pen.
 - `info` - Pointer to the POINTER_TYPE_INFO structure.
 
 <a name="line-97"></a><a name="ScreenCount"></a>
-### 🔹 int ScreenCount()
+### 🔹 void ScreenCount(int* count)
 
 ```cpp
-int ScreenCount()
+void ScreenCount(int* count)
 ```
 
 Get the number of screens.
 
-#### Return value
+#### Parameters
 
-Returns the number of screens.
+- `count` - Pointer to the number of screens.
 
 <a name="line-106"></a>
 ## Internal Functions

@@ -97,11 +97,11 @@ void Up(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info);
 /** (ScreenCount)
  * Get the number of screens.
  *
- * # Return value
+ * # Parameters
  *
- * Returns the number of screens.
+ * - `count` - Pointer to the number of screens.
 */
-int ScreenCount();
+void ScreenCount(int* count);
 
 /**
  * ## Internal Functions
