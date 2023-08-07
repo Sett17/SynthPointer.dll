@@ -51,7 +51,7 @@ void HoverMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info, float x,
   info->penInfo.pointerInfo.ptPixelLocation.x = global.x;
   info->penInfo.pointerInfo.ptPixelLocation.y = global.y;
   info->penInfo.pointerInfo.pointerFlags = PEN_HOVER;
-  info->penInfo.penFlags |= (buttonPressed) ? PEN_FLAG_BARREL : 0;
+  info->penInfo.penFlags = (buttonPressed) ? PEN_FLAG_BARREL : PEN_FLAG_NONE;
 
   _injectPointer(device, info);
 }
@@ -71,7 +71,7 @@ void ContactMove(HSYNTHETICPOINTERDEVICE device, POINTER_TYPE_INFO *info, float 
   info->penInfo.pointerInfo.ptPixelLocation.x = global.x;
   info->penInfo.pointerInfo.ptPixelLocation.y = global.y;
   info->penInfo.pointerInfo.pointerFlags = PEN_CONTACT;
-  info->penInfo.penFlags |= (buttonPressed) ? PEN_FLAG_BARREL : 0;
+  info->penInfo.penFlags = (buttonPressed) ? PEN_FLAG_BARREL : PEN_FLAG_NONE;
   info->penInfo.penMask = PEN_MASK_PRESSURE;
   info->penInfo.pressure = pressure;
 
